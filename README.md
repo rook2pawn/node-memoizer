@@ -22,3 +22,11 @@ example:
 	>> 13 // but instantly from cache!
 
 [wikipedia-memo]: http://en.wikipedia.org/wiki/Memoization
+
+Usage
+=====
+
+memo(your_function)
+-------------------
+
+memo takes a function, memoizes it, and the return value is a fully-memoized version of your function, bam!
