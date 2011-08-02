@@ -11,3 +11,18 @@ exports.testStoreAndFetch = function(test) {
 	test.equal(307,bar_memoized(function(val) { return val + 300 },7));
 	test.done();
 };
+
+var x = function(a,b,c,memo){
+	var value = 42;
+	memo.done(arguments,value);
+};
+var y = memo(x);
+exports.testAsynchronousStoreAndFetch = function(test) {
+	test.expect(3);
+	test.equal(42,y('aay','beee','seee'));
+	setTimeout(function() {
+		test.equal(42,y('aay','beee','seee'));
+		test.notEqual(43,y('aay','beee','seee'));
+		test.done();
+	},250);
+}	
