@@ -1,7 +1,7 @@
 exports = module.exports = Memoizer;
 var EE = require('events').EventEmitter;
 var Treelib = require('treelib');
-var argfunctions = require('./argfunctions');
+var textual = require('textual');
 function Memoizer(fn) {
 	var args = {};
 	var tree = Treelib();
@@ -9,8 +9,8 @@ function Memoizer(fn) {
 	emitter.on('done', function(pathargs,value){ 
 		tree.path(pathargs).setValue(value);
 	});
-	var getLastArg = argfunctions.getLastArg;
-	var doesObjectCallMethod = argfunctions.doesObjectCallMethod;
+	var getLastArg = textual.getLastArg;
+	var doesObjectCallMethod = textual.doesObjectCallMethod;
 	var memo = function() {};
 	var foo = function() {
 		var args = [].slice.call(arguments,0);
