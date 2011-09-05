@@ -7,10 +7,13 @@ function Memoizer(fn) {
 	var tree = Treelib();
 	var emitter = new EE;	
 	emitter.on('done', function(pathargs,value){ 
+        lastKnownValue = value;
 		tree.path(pathargs).setValue(value);
 	});
+    var lastKnownValue = undefined;
 	var getLastArg = textual.getLastArg;
 	var doesObjectCallMethod = textual.doesObjectCallMethod;
+    var then = undefined; 
 	var memo = function() {};
 	var foo = function() {
 		var args = [].slice.call(arguments,0);
@@ -29,7 +32,11 @@ function Memoizer(fn) {
 				};
 				fn.apply(fn,args.concat(x));
 			} else {
-				tree.path(args).setValue(fn.apply(fn,arguments));
+                lastKnownValue = fn.apply(fn,arguments);
+                if (then !== undefined) {
+                    lastKnownValue = then(lastKnownValue);
+                }
+				tree.path(args).setValue(lastKnownValue);
 			}
 		} else {
 			// cached value is being used! hooray!
@@ -42,5 +49,13 @@ function Memoizer(fn) {
 	foo.doesObjectCallMethod = function(fn,objstr,methodstr) {
 		return doesObjectCallMethod(fn,objstr,methodstr)
 	};
+    foo.update = function(args, val) {
+        tree.path(args).setValue(val);
+        return foo;
+    };
+    foo.then = function(cb) {
+        then = cb;
+        return foo;
+    }
 	return foo;
 };

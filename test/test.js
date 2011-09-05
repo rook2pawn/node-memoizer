@@ -25,4 +25,26 @@ exports.testAsynchronousStoreAndFetch = function(test) {
 		test.notEqual(43,y('aay','beee','seee'));
 		test.done();
 	},250);
-}	
+};
+
+var baz = {};
+baz.myNum = 5;
+baz.add= function(x) { return x + this.myNum };
+var add_memo = memo(baz.add.bind(baz));
+exports.testMethodContext = function(test) {
+    test.expect(2);
+    test.equal(8, add_memo(3));
+    test.equal(8, add_memo(3));
+    test.done();
+};
+
+var addThen_memo = memo(baz.add.bind(baz))
+                    .then(function(last) {
+                        return last * 4;
+                    });
+                         
+exports.testThenFunctionality = function(test) {
+    test.expect(1);
+    test.equal(32, addThen_memo(3));
+    test.done();
+}
