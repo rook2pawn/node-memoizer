@@ -43,8 +43,17 @@ var addThen_memo = memo(baz.add.bind(baz))
                         return last * 4;
                     });
                          
+var f = function(x) {
+    return x + 3;
+};
+
+var g = memo(f)
+        .then(function(last) {
+            return last * 4;
+        });
 exports.testThenFunctionality = function(test) {
-    test.expect(1);
+    test.expect(2);
     test.equal(32, addThen_memo(3));
+    test.equal(20, g(2));
     test.done();
 }

@@ -56,4 +56,20 @@ Example:
 		
 	// calculated instantly!
 
-	
+Even Do Advanced Calculations with .then
+========================================
+
+Example:
+
+    var f = function(x) {
+        return x + 3;
+    };
+
+    var g = memo(f)
+            .then(function(last) {
+                return last * 4;
+            });
+
+    g(2);
+    
+    // (2 + 3) * 4 = 20
