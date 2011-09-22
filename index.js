@@ -14,6 +14,7 @@ function Memoizer(fn) {
 	var getLastArg = textual.getLastArg;
 	var doesObjectCallMethod = textual.doesObjectCallMethod;
     var then = undefined; 
+    var countCache = 0;
 	var memo = function() {};
 	var foo = function() {
 		var args = [].slice.call(arguments,0);
@@ -39,6 +40,8 @@ function Memoizer(fn) {
 				tree.path(args).setValue(lastKnownValue);
 			}
 		} else {
+            countCache++;
+            //console.log("Cached Value used! :" + countCache);
 			// cached value is being used! hooray!
 		}
 		return tree.getValue(args);
