@@ -19,9 +19,12 @@ function Memoizer(fn) {
 	var foo = function() {
 		var args = [].slice.call(arguments,0);
 		if (tree.getValue(args) === undefined) {
-			args.forEach(function(val) {
-				if (typeof val == 'function')
-					val = val.toString();
+			args = args.map(function(val) {
+				if (typeof val == 'function') {
+					return val.toString();
+                } else 
+                    return val
+                }
 			});
 			if (doesObjectCallMethod(fn, getLastArg(fn), 'done')) {
 				var x = memo.bind(fn);
