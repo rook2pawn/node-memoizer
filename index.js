@@ -22,10 +22,10 @@ function Memoizer(fn) {
 			args = args.map(function(val) {
 				if (typeof val == 'function') {
 					return val.toString();
-                } else 
+                } else {
                     return val
                 }
-			});
+            }); 
 			if (doesObjectCallMethod(fn, getLastArg(fn), 'done')) {
 				var x = memo.bind(fn);
 				x.done = function() { 
