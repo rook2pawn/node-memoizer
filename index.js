@@ -11,7 +11,6 @@ function Memoizer(fn) {
     if (tree.getValue(args) === undefined) {
       lastKnownValue = fn.apply(fn,arguments);
       tree.path(args).setValue(lastKnownValue);
-      tree.show()
     } else {
       countCache++;
     }
