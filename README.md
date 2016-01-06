@@ -20,7 +20,7 @@ For functions that take objects, provide a collapse function
 by calling .collapse(argument_index, fn)
 
     f2.collapse(0,function(obj) {
-      return obj.x + ':' + obj.y + ':' + obj.z
+      return Object.keys(obj).join(':')
     })
 
 
