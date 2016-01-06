@@ -1,24 +1,34 @@
 exports = module.exports = Memoizer;
-var EE = require('events').EventEmitter;
 var Treelib = require('treelib');
-function Memoizer(fn) {
+function Memoizer(fn,isAsync) {
   var args = {};
   var tree = Treelib();
   var lastKnownValue = undefined;
-  var countCache = 0;
   var foo = function() {
     var args = [].slice.call(arguments,0);
-    if (tree.getValue(args) === undefined) {
-      lastKnownValue = fn.apply(fn,arguments);
+    var cb = function(val) {
+      lastKnownValue = val
+      args.pop()
       tree.path(args).setValue(lastKnownValue);
-    } else {
-      countCache++;
     }
-		return tree.getValue(args);
+    if (isAsync) {
+      if (tree.getValue(args) === undefined) {
+        args.push(cb)
+        fn.apply(fn,args)
+      } else {
+        return tree.getValue(args);
+      }
+    } else {
+      if (tree.getValue(args) === undefined) {
+        lastKnownValue = fn.apply(fn,args);
+        tree.path(args).setValue(lastKnownValue);
+      }
+      return tree.getValue(args);
+    }
 	};
   foo.update = function(args, val) {
-      tree.path(args).setValue(val);
-      return foo;
+    tree.path(args).setValue(val);
+    return foo;
   };
 	return foo;
 };

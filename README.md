@@ -30,3 +30,15 @@ memo(your_function)
 -------------------
 
 memo takes a function, memoizes it, and the return value is a fully-memoized version of your function, bam!
+
+Async
+=====
+Simply use the callback before you pass it into memo
+
+    var myfn = function(x,y,cb) {
+      cb(x+y) 
+    }; 
+
+    var memo_myfn = memo(myfn)
+
+
