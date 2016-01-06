@@ -22,3 +22,9 @@ by calling .collapse(argument_index, fn)
     f2.collapse(0,function(obj) {
       return obj.x + ':' + obj.y + ':' + obj.z
     })
+
+
+LICENSE
+=======
+
+MIT
