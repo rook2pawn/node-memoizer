@@ -1,34 +1,39 @@
-exports = module.exports = Memoizer;
+var copy = require('shallow-copy')
 var Treelib = require('treelib');
 function Memoizer(fn,isAsync) {
-  var args = {};
+  var collapsefns = []
   var tree = Treelib();
-  var lastKnownValue = undefined;
-  var foo = function() {
+	var f = function() {
+    var lastKnownValue = undefined;
     var args = [].slice.call(arguments,0);
+    var mapped = args.map(function(val,idx) {
+      if (collapsefns[idx] !== undefined)
+        return collapsefns[idx](val)
+      else 
+        return val
+    })
     var cb = function(val) {
       lastKnownValue = val
-      args.pop()
-      tree.path(args).setValue(lastKnownValue);
+      tree.path(mapped).setValue(lastKnownValue);
     }
     if (isAsync) {
-      if (tree.getValue(args) === undefined) {
+      if (tree.getValue(mapped) === undefined) {
         args.push(cb)
         fn.apply(fn,args)
       } else {
-        return tree.getValue(args);
+        return tree.getValue(mapped);
       }
     } else {
-      if (tree.getValue(args) === undefined) {
+      if (tree.getValue(mapped) === undefined) {
         lastKnownValue = fn.apply(fn,args);
-        tree.path(args).setValue(lastKnownValue);
+        tree.path(mapped).setValue(lastKnownValue);
       }
-      return tree.getValue(args);
+      return tree.getValue(mapped);
     }
-	};
-  foo.update = function(args, val) {
-    tree.path(args).setValue(val);
-    return foo;
-  };
-	return foo;
-};
+  }
+  f.collapse = function(idx,fn) {
+    collapsefns[idx] = fn
+  }
+  return f
+}
+module.exports = exports = Memoizer;

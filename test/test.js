@@ -36,3 +36,23 @@ test('async',function(t) {
   },100)
 
 })
+
+test('collapse functions',function(t) {
+  t.plan(4)
+  var count = 0
+  var f = function(obj) {
+    count++
+    return obj.x + obj.y
+  }
+  var fm = memo(f)
+  fm.collapse(0,function(obj) {
+    return obj.x + ':' + obj.y
+  })
+
+  var x = fm({x:3,y:4})
+  t.equals(1,count)
+  var y = fm({x:3,y:4})
+  t.equals(1,count)
+  t.equals(7,x)
+  t.equals(7,y)
+})
