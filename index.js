@@ -1,4 +1,3 @@
-var copy = require('shallow-copy')
 var Treelib = require('treelib');
 function Memoizer(fn,isAsync) {
   var collapsefns = []
