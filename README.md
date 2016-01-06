@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/rook2pawn/node-memoizer.svg?branch=master)](https://travis-ci.org/rook2pawn/node-memoizer)
+
 memoizer - f2 = memo(f); f2 is now fully memoized!
 ==================================================
 From [Wikipedia] [wikipedia-memo]
