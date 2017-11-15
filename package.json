@@ -13,7 +13,7 @@
     "test": "tape test/test*.js"
   },
   "dependencies": {
-    "treelib": ""
+    "treelib": "^1.1.3"
   },
   "devDependencies": {
     "tape": ""

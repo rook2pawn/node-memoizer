@@ -4,11 +4,11 @@ function Memoizer(fn) {
   return function() {
     var lastKnownValue = undefined;
     var args = Array.from(arguments);
-    if (tree.getValue(args) === undefined) {
-      lastKnownValue = fn.apply(fn,args);
-      tree.path(args).setValue(lastKnownValue);
+    if (tree.getListValue(args) === undefined) {
+      lastKnownValue = fn.apply({}, args);
+      tree.pathListAndSetValue(args,lastKnownValue);
     }
-    return tree.getValue(args);
+    return tree.getListValue(args);
   }
 }
 module.exports = exports = Memoizer;
