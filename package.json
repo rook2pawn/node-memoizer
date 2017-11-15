@@ -2,7 +2,7 @@
   "author": "David Wee <rook2pawn@gmail.com> (http://rook2pawn.com)",
   "name": "memoizer",
   "description": "memoization as easy as f = memo(g); f is now fully memoized!",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "homepage": "https://github.com/rook2pawn/node-memoizer",
   "repository": {
     "type": "git",
